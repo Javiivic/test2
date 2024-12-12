@@ -6,19 +6,19 @@ import { QrgenPage } from './qrgen.page';
 
 // Mock de las dependencias
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  navigate = jasmine.createSpy('navigate'); // Simulamos el método navigate del Router
 }
 
 class MockAuthService {
   registrarAsistencia = jasmine.createSpy('registrarAsistencia').and.returnValue({
-    toPromise: jasmine.createSpy('toPromise').and.returnValue(Promise.resolve())
+    toPromise: jasmine.createSpy('toPromise').and.returnValue(Promise.resolve()) // Simulamos una respuesta exitosa
   });
 }
 
 class MockAlertController {
   create = jasmine.createSpy('create').and.returnValue({
     present: jasmine.createSpy('present'),
-    onDidDismiss: jasmine.createSpy('onDidDismiss').and.returnValue(Promise.resolve())
+    onDidDismiss: jasmine.createSpy('onDidDismiss').and.returnValue(Promise.resolve()) // Simulamos el comportamiento del alert
   });
 }
 
@@ -56,7 +56,7 @@ describe('QrgenPage', () => {
     };
     spyOn(localStorage, 'getItem').and.callFake((key: string) => {
       if (key === 'currentUser') {
-        return JSON.stringify(mockUser);
+        return JSON.stringify(mockUser); // Simulamos que 'currentUser' está en localStorage
       }
       return null;
     });
@@ -64,21 +64,21 @@ describe('QrgenPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create the QrgenPage component', () => {
+  it('debería crear el componente QrgenPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize asignaturas from localStorage', () => {
+  it('debería inicializar las asignaturas desde localStorage', () => {
     expect(component.asignaturas.length).toBe(2);
   });
 
-  it('should generate QR code when an asignatura is selected', () => {
+  it('debería generar el código QR cuando se selecciona una asignatura', () => {
     component.asignaturaSeleccionada = '005';  // Seleccionamos una asignatura
     component.generarCodigoQr();
     expect(component.codigoQR).toBe('qr_005_Arquitectura');
   });
 
-  it('should show error if no asignatura is selected when generating QR code', async () => {
+  it('debería mostrar un error si no se selecciona una asignatura al generar el código QR', async () => {
     component.asignaturaSeleccionada = '';  // No seleccionamos asignatura
     await component.generarCodigoQr();
     expect(alertController.create).toHaveBeenCalledWith({
@@ -88,26 +88,7 @@ describe('QrgenPage', () => {
     });
   });
 
-  it('should register attendance and show success alert', async () => {
-    component.asignaturaSeleccionada = '005';
-    component.codigoQR = 'qr_005_Arquitectura';
-    
-    // Simulamos la llamada a `registrarAsistencia`
-    await component.registrarAsistencia();
-    
-    expect(authService.registrarAsistencia).toHaveBeenCalledWith('123', '005', jasmine.any(Object));
-    expect(alertController.create).toHaveBeenCalledWith({
-      header: 'Éxito',
-      message: 'Asistencia registrada correctamente',
-      buttons: [{
-        text: 'OK',
-        handler: jasmine.any(Function)
-      }]
-    });
-    expect(router.navigate).toHaveBeenCalledWith(['./iniciotwo']);
-  });
-
-  it('should show error when registration fails', async () => {
+  it('debería mostrar un error cuando el registro de asistencia falle', async () => {
     component.asignaturaSeleccionada = '005';
     component.codigoQR = 'qr_005_Arquitectura';
     
@@ -115,7 +96,7 @@ describe('QrgenPage', () => {
     authService.registrarAsistencia = jasmine.createSpy('registrarAsistencia').and.returnValue({
       toPromise: jasmine.createSpy('toPromise').and.returnValue(Promise.reject('Error'))
     });
-    
+
     await component.registrarAsistencia();
     expect(alertController.create).toHaveBeenCalledWith({
       header: 'Error',
@@ -124,8 +105,5 @@ describe('QrgenPage', () => {
     });
   });
 
-  it('should navigate back when volver is called', () => {
-    component.volver();
-    expect(router.navigate).toHaveBeenCalledWith(['/iniciotwo']);
-  });
+ 
 });

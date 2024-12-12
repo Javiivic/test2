@@ -1,7 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Necesario para las pruebas de HttpClient
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing'; // Necesario para el router
 import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
+
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
@@ -9,8 +12,11 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule], // Proporciona un módulo de enrutamiento para el guard
-      providers: [AuthGuard], // Proporciona el guard
+      imports: [
+        RouterTestingModule,  // Para el enrutamiento
+        HttpClientTestingModule,  // Para las pruebas de HttpClient
+      ],
+      providers: [AuthGuard, AuthService],  // Proporciona AuthGuard y AuthService
     });
 
     // Obtener instancias inyectadas
@@ -18,9 +24,9 @@ describe('AuthGuard', () => {
     router = TestBed.inject(Router);
   });
 
-  it('should be created', () => {
+  it('debería ser creado', () => {
     expect(authGuard).toBeTruthy(); // Verifica que el guard se haya creado correctamente
   });
 
-  // Aquí puedes agregar más pruebas para las funciones del guard
+  // Puedes agregar más pruebas para las funciones del guard aquí
 });

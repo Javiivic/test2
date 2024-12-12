@@ -32,11 +32,11 @@ describe('InicioPage', () => {
     fixture.detectChanges();
   });
 
-  it('should create the InicioPage component', () => {
-    expect(component).toBeTruthy();
+  it('debería crear el componente InicioPage', () => {
+    expect(component).toBeTruthy();  // Verificamos que el componente se haya creado correctamente
   });
 
-  it('should initialize userName and userId based on localStorage', () => {
+  it('debería inicializar userName y userId desde localStorage', () => {
     // Mock de localStorage
     const mockUser = { id: '123', name: 'John Doe' };
     spyOn(localStorage, 'getItem').and.callFake((key: string) => {
@@ -48,37 +48,37 @@ describe('InicioPage', () => {
       return null;
     });
 
-    // Ejecutar ngOnInit() para inicializar los valores
+    // Ejecutamos ngOnInit() para inicializar los valores
     component.ngOnInit();
 
-    // Verificar que los valores se hayan inicializado correctamente
+    // Verificamos que los valores se hayan inicializado correctamente
     expect(component.userId).toBe('123');
     expect(component.userName).toBe('John Doe');
   });
 
-  it('should set userName to "Usuario desconocido" when there is no currentUser in localStorage', () => {
+  it('debería establecer userName como "Usuario desconocido" cuando no haya currentUser en localStorage', () => {
     // Mock de localStorage para no tener un currentUser
     spyOn(localStorage, 'getItem').and.callFake(() => null);
 
-    // Ejecutar ngOnInit() para inicializar los valores
+    // Ejecutamos ngOnInit() para inicializar los valores
     component.ngOnInit();
 
-    // Verificar que el userName se haya establecido como "Usuario desconocido"
+    // Verificamos que userName se haya establecido como "Usuario desconocido"
     expect(component.userName).toBe('Usuario desconocido');
   });
 
-  it('should clear localStorage and navigate to /sesion on logout', () => {
+  it('debería limpiar localStorage y navegar a /sesion al hacer logout', () => {
     // Espiar localStorage.clear y router.navigate
     spyOn(localStorage, 'clear');
-    spyOn(router, 'navigate');  // Verificar que el router navegue correctamente
+    spyOn(router, 'navigate');  // Verificamos que el router navegue correctamente
 
-    // Llamar al método logout
+    // Llamamos al método logout
     component.logout();
 
-    // Verificar que localStorage.clear() haya sido llamado
+    // Verificamos que localStorage.clear() haya sido llamado
     expect(localStorage.clear).toHaveBeenCalled();
 
-    // Verificar que el router haya navegado a '/sesion'
+    // Verificamos que el router haya navegado a '/sesion'
     expect(router.navigate).toHaveBeenCalledWith(['/sesion']);
   });
 });

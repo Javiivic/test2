@@ -11,32 +11,35 @@ describe('HorarioPage', () => {
   let modalControllerSpy: jasmine.SpyObj<ModalController>;
 
   beforeEach(async () => {
-    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
+    modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']); // Simulamos el controlador de modales
 
     await TestBed.configureTestingModule({
       declarations: [HorarioPage],
-      imports: [RouterTestingModule, IonicModule.forRoot()],
+      imports: [RouterTestingModule, IonicModule.forRoot()], // Importamos el RouterTestingModule para pruebas de enrutamiento
       providers: [
-        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ModalController, useValue: modalControllerSpy }, // Inyectamos el controlador de modales simulado
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HorarioPage);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
-    fixture.detectChanges();
+    router = TestBed.inject(Router); // Inyectamos el Router
+    fixture.detectChanges(); // Detectamos cambios en el ciclo de vida del componente
   });
 
-  it('should create the component', () => {
+  it('debería crear el componente', () => {
+    // Verificamos que el componente se haya creado correctamente
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to /iniciotwo and dismiss modal on volver', () => {
-    const navigateSpy = spyOn(router, 'navigate');
+  it('debería navegar a /iniciotwo y cerrar el modal al llamar a volver', () => {
+    const navigateSpy = spyOn(router, 'navigate'); // Espiamos el método navigate del Router
 
-    component.volver();
+    component.volver(); // Llamamos al método volver
 
+    // Verificamos que se haya cerrado el modal
     expect(modalControllerSpy.dismiss).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['/iniciotwo']);
+    // Verificamos que se haya navegado a la página /iniciotwo
+    expect(navigateSpy).toHaveBeenCalledWith(['/iniciotwo']);  // Aquí corregimos la ruta esperada
   });
 });

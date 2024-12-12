@@ -12,25 +12,25 @@ describe('RestablecerPage', () => {
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['changePassword']);
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['changePassword']);  // Creando un espía para AuthService
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);  // Creando un espía para Router
 
     TestBed.configureTestingModule({
-      declarations: [RestablecerPage],
-      imports: [RouterTestingModule, HttpClientModule],
+      declarations: [RestablecerPage],  // Declarando el componente que vamos a probar
+      imports: [RouterTestingModule, HttpClientModule],  // Importando los módulos necesarios
       providers: [
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: Router, useValue: routerSpy },
+        { provide: AuthService, useValue: authServiceSpy },  // Usamos el espía de AuthService
+        { provide: Router, useValue: routerSpy },  // Usamos el espía de Router
       ],
     });
 
-    fixture = TestBed.createComponent(RestablecerPage);
+    fixture = TestBed.createComponent(RestablecerPage);  // Creamos el componente
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;  // Inyectamos el espía de AuthService
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;  // Inyectamos el espía de Router
   });
 
-  it('should handle error in changePassword and not navigate', async () => {
+  it('debería manejar el error en changePassword y no navegar', async () => {
     const oldPassword = 'oldPassword123';
     const newPassword = 'newPassword123';
     const confirmPassword = 'newPassword123';
@@ -52,7 +52,7 @@ describe('RestablecerPage', () => {
     expect(router.navigate).not.toHaveBeenCalled();
   });
 
-  it('should navigate to /inicio if changePassword succeeds', async () => {
+  it('debería navegar a /inicio si changePassword tiene éxito', async () => {
     const oldPassword = 'oldPassword123';
     const newPassword = 'newPassword123';
     const confirmPassword = 'newPassword123';
